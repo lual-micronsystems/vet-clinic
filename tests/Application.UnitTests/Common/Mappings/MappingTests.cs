@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using vet_clinic.Application.Common.Mappings;
-using vet_clinic.Application.TodoLists.Queries.GetTodos;
 using vet_clinic.Domain.Entities;
 using NUnit.Framework;
 using System;
