@@ -106,9 +106,9 @@ namespace vet_clinic.WebUI
 
             app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseIdentityServer();
-            app.UseAuthorization();
+            //app.UseAuthentication();
+            //app.UseIdentityServer();
+            //app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
