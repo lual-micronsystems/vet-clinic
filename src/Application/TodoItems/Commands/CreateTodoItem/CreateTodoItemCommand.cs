@@ -29,10 +29,10 @@ namespace vet_clinic.Application.TodoItems.Commands.CreateTodoItem
             {
                 ListId = request.ListId,
                 Title = request.Title,
-                Done = false
+                //Done = false
             };
 
-            entity.DomainEvents.Add(new TodoItemCreatedEvent(entity));
+            //entity.DomainEvents.Add(new TodoItemCreatedEvent(entity));
 
             _context.TodoItems.Add(entity);
 

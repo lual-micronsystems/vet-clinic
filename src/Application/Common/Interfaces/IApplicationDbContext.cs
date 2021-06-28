@@ -11,6 +11,10 @@ namespace vet_clinic.Application.Common.Interfaces
 
         DbSet<TodoItem> TodoItems { get; set; }
 
+        DbSet<User> Owners { get; set; }
+        DbSet<Pet> Pets { get; set; }
+        DbSet<Visit> Visits { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

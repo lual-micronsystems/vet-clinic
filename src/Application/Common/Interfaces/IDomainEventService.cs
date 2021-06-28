@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace vet_clinic.Application.Common.Interfaces
 {
-    public interface IDomainEventService
-    {
-        Task Publish(DomainEvent domainEvent);
-    }
+    //public interface IDomainEventService
+    //{
+    //    Task Publish(DomainEvent domainEvent);
+    //}
 }

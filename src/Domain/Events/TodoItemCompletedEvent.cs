@@ -3,7 +3,7 @@ using vet_clinic.Domain.Entities;
 
 namespace vet_clinic.Domain.Events
 {
-    public class TodoItemCompletedEvent : DomainEvent
+    public class TodoItemCompletedEvent
     {
         public TodoItemCompletedEvent(TodoItem item)
         {
