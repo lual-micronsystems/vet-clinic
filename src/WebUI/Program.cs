@@ -1,17 +1,9 @@
-using vet_clinic.Infrastructure.Identity;
-using vet_clinic.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 
 namespace vet_clinic.WebUI
 {
-	public class Program
+    public class Program
 	{
 		public static void Main(string[] args)
 		{

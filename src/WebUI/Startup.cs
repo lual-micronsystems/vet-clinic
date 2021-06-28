@@ -1,20 +1,17 @@
-using vet_clinic.Application;
-using vet_clinic.Application.Common.Interfaces;
-using vet_clinic.Infrastructure;
-using vet_clinic.Infrastructure.Persistence;
-using vet_clinic.WebUI.Filters;
-using vet_clinic.WebUI.Services;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using System.Linq;
+using vet_clinic.Application;
+using vet_clinic.Infrastructure;
+using vet_clinic.Infrastructure.Persistence;
+using vet_clinic.WebUI.Filters;
 
 namespace vet_clinic.WebUI
 {
@@ -34,8 +31,6 @@ namespace vet_clinic.WebUI
             services.AddInfrastructure(Configuration);
 
             services.AddDatabaseDeveloperPageExceptionFilter();
-
-            services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
             services.AddHttpContextAccessor();
 
