@@ -11,29 +11,28 @@ namespace vet_clinic.Application.Users.Queries.GetUsers
 {
     public class GetUsersQuery : IRequest<UsersVm>
     {
-    }
-
-    public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, UsersVm>
-    {
-        private readonly IApplicationDbContext _context;
-        private readonly IMapper _mapper;
-
-        public GetUsersQueryHandler(IApplicationDbContext context, IMapper mapper)
+        public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, UsersVm>
         {
-            _context = context;
-            _mapper = mapper;
-        }
+            private readonly IApplicationDbContext _context;
+            private readonly IMapper _mapper;
 
-        public async Task<UsersVm> Handle(GetUsersQuery request, CancellationToken cancellationToken)
-        {
-            return new UsersVm
+            public GetUsersQueryHandler(IApplicationDbContext context, IMapper mapper)
             {
-                Users = await _context.Users
-                    .AsNoTracking()
-                    .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
-                    .OrderBy(t => t.Id)
-                    .ToListAsync(cancellationToken)
-            };
+                _context = context;
+                _mapper = mapper;
+            }
+
+            public async Task<UsersVm> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+            {
+                return new UsersVm
+                {
+                    Users = await _context.Users
+                        .AsNoTracking()
+                        .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
+                        .OrderBy(t => t.Id)
+                        .ToListAsync(cancellationToken)
+                };
+            }
         }
     }
 }
