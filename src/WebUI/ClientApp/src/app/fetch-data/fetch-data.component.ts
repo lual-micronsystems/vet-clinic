@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+/* import { Component } from '@angular/core';
 import { WeatherForecastClient, WeatherForecast } from '../web-api-client';
 
 @Component({
@@ -14,3 +14,4 @@ export class FetchDataComponent {
     }, error => console.error(error));
   }
 }
+ */
