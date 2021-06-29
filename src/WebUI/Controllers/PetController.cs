@@ -1,9 +1,10 @@
-// using vet_clinic.Application.Pets.Commands.CreateTodoList;
-// using vet_clinic.Application.Pets.Commands.DeleteTodoList;
-// using vet_clinic.Application.Pets.Commands.UpdateTodoList;
 using vet_clinic.Application.Pets.Queries.GetPets;
+using vet_clinic.Application.Pets.Commands.CreatePet;
+using vet_clinic.Application.Pets.Commands.DeletePet;
+using vet_clinic.Application.Pets.Commands.UpdatePet;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using vet_clinic.Application.Common.Models;
 
 namespace vet_clinic.WebUI.Controllers
 {
@@ -17,37 +18,41 @@ namespace vet_clinic.WebUI.Controllers
             return Ok(await Mediator.Send(new GetPetsQuery()));
         }
 
-        // [HttpGet("{id}")]
-        /* public async Task<ActionResult> Get(int id)
+        [HttpGet]
+        [Route("GetPetsByUser")]
+        public async Task<ActionResult<PaginatedList<PetDto>>> GetPetsByUser([FromQuery] GetPetsWithPaginationQuery query)
         {
-            var vm = await Mediator.Send(new GetUserByIdQuery { UserId = id });
-        } */
-
-        /* [HttpPost]
-        public async Task<ActionResult<int>> Create(CreateTodoListCommand command)
-        {
-            return await Mediator.Send(command);
+            return Ok(await Mediator.Send(query));
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, UpdateTodoListCommand command)
+        [HttpPost]
+        [Route("CreatePet")]
+        public async Task<ActionResult<int>> CreatePet(CreatePetCommand command)
         {
-            if (id != command.Id)
+            return Ok(await Mediator.Send(command));
+        }
+
+        [HttpDelete("{petId}")]
+        public async Task<ActionResult> DeletePet(int petId)
+        {
+            await Mediator.Send(new DeletePetCommand { Id = petId });
+
+            string v = $"Successfully deleted pet record with Id: {petId}";
+            return Ok(v);
+        } 
+
+        [HttpPut("{petId}")]
+        public async Task<ActionResult> UpdatePet(int petId, UpdatePetCommand command)
+        {
+            if (petId != command.Id)
             {
                 return BadRequest();
             }
 
             await Mediator.Send(command);
 
-            return NoContent();
+            string v = $"Successfully updated pet with Id: {petId}";
+            return Ok(v);
         }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
-        {
-            await Mediator.Send(new DeleteTodoListCommand { Id = id });
-
-            return NoContent();
-        } */
     }
 }

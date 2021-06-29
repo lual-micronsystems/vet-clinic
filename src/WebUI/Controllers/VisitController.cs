@@ -1,8 +1,7 @@
 using vet_clinic.Application.Common.Models;
-// using vet_clinic.Application.TodoItems.Commands.CreateTodoItem;
-// using vet_clinic.Application.TodoItems.Commands.DeleteTodoItem;
-// using vet_clinic.Application.TodoItems.Commands.UpdateTodoItem;
-// using vet_clinic.Application.TodoItems.Commands.UpdateTodoItemDetail;
+using vet_clinic.Application.Visits.Commands.CreateVisit;
+using vet_clinic.Application.Visits.Commands.DeleteVisit;
+using vet_clinic.Application.Visits.Commands.UpdateVisit;
 using vet_clinic.Application.Visits.Queries.GetVisits;
 using vet_clinic.Application.Pets.Queries.GetPets;
 using Microsoft.AspNetCore.Mvc;
@@ -24,47 +23,38 @@ namespace vet_clinic.WebUI.Controllers
         [Route("GetVisitsByPet")]
         public async Task<ActionResult<PaginatedList<VisitDto>>> GetVisitsByPet([FromQuery] GetVisitsWithPaginationQuery query)
         {
-            return await Mediator.Send(query);
+            return Ok(await Mediator.Send(query));
         }
 
-        /* [HttpPost]
-        public async Task<ActionResult<int>> Create(CreateTodoItemCommand command)
+        [HttpPost]
+        [Route("CreateVisit")]
+        public async Task<ActionResult<int>> CreateVisit(CreateVisitCommand command)
         {
-            return await Mediator.Send(command);
+            return Ok(await Mediator.Send(command));
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, UpdateTodoItemCommand command)
+
+        [HttpDelete("{visitId}")]
+        public async Task<ActionResult> DeleteVisit(int visitId)
         {
-            if (id != command.Id)
+            await Mediator.Send(new DeleteVisitCommand { Id = visitId });
+
+            string v = $"Successfully deleted visit record with Id: {visitId}";
+            return Ok(v);
+        }
+
+        [HttpPut("{visitId}")]
+        public async Task<ActionResult> UpdateVisit(int visitId, UpdateVisitCommand command)
+        {
+            if (visitId != command.Id)
             {
                 return BadRequest();
             }
 
             await Mediator.Send(command);
 
-            return NoContent();
+            string v = $"Successfully updated visit record with Id: {visitId}";
+            return Ok(v);
         }
-
-        [HttpPut("[action]")]
-        public async Task<ActionResult> UpdateItemDetails(int id, UpdateTodoItemDetailCommand command)
-        {
-            if (id != command.Id)
-            {
-                return BadRequest();
-            }
-
-            await Mediator.Send(command);
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
-        {
-            await Mediator.Send(new DeleteTodoItemCommand { Id = id });
-
-            return NoContent();
-        } */
     }
 }

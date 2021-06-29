@@ -10,6 +10,9 @@ namespace vet_clinic.Infrastructure.Persistence.Configurations
         {
             //builder.Ignore(e => e.DomainEvents);
 
+            builder.Property(t => t.Id)
+                .ValueGeneratedOnAdd();
+                
             builder.Property(t => t.FirstName)
                 .HasMaxLength(200)
                 .IsRequired();

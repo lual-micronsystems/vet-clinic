@@ -3,11 +3,13 @@ using vet_clinic.Domain.Enums;
 using vet_clinic.Domain.Events;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace vet_clinic.Domain.Entities
 {
     public class Visit : AuditableEntity
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public int Id { get; set; }
         public int VisitType { get; set; }
         public DateTime VisitDate { get; set; }

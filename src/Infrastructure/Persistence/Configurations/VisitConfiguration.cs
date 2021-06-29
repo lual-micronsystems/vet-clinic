@@ -9,6 +9,8 @@ namespace vet_clinic.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Visit> builder)
         {
             //builder.Ignore(e => e.DomainEvents);
+            builder.Property(t => t.Id)
+                .ValueGeneratedOnAdd();
 
             builder.Property(t => t.VisitType)
                 .IsRequired();
@@ -18,6 +20,9 @@ namespace vet_clinic.Infrastructure.Persistence.Configurations
             
             builder.Property(t => t.Notes)
                 .HasMaxLength(400)
+                .IsRequired();
+            
+            builder.Property(t => t.PetId)
                 .IsRequired();
         }
     }

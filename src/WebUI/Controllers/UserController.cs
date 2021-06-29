@@ -1,7 +1,7 @@
-using vet_clinic.Application.Users.Commands.CreateUser;
-// using vet_clinic.Application.Users.Commands.DeleteTodoList;
-// using vet_clinic.Application.Users.Commands.UpdateTodoList;
 using vet_clinic.Application.Users.Queries.GetUsers;
+using vet_clinic.Application.Users.Commands.CreateUser;
+using vet_clinic.Application.Users.Commands.DeleteUser;
+using vet_clinic.Application.Users.Commands.UpdateUser;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -21,29 +21,30 @@ namespace vet_clinic.WebUI.Controllers
         [Route("CreateUser")]
         public async Task<ActionResult<int>> CreateUser(CreateUserCommand command)
         {
-            return await Mediator.Send(command);
+            return Ok(await Mediator.Send(command));
         }
 
-        /*
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, UpdateTodoListCommand command)
+        [HttpDelete("{userId}")]
+        public async Task<ActionResult> DeleteUser(int userId)
         {
-            if (id != command.Id)
+            await Mediator.Send(new DeleteUserCommand { Id = userId });
+
+            string v = $"Successfully deleted user with Id: {userId}";
+            return Ok(v);
+        } 
+
+        [HttpPut("{userId}")]
+        public async Task<ActionResult> UpdateUser(int userId, UpdateUserCommand command)
+        {
+            if (userId != command.Id)
             {
                 return BadRequest();
             }
 
             await Mediator.Send(command);
 
-            return NoContent();
+            string v = $"Successfully updated user with Id: {userId}";
+            return Ok(v);
         }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
-        {
-            await Mediator.Send(new DeleteTodoListCommand { Id = id });
-
-            return NoContent();
-        } */
     }
 }

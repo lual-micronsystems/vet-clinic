@@ -3,6 +3,7 @@ using vet_clinic.Domain.Enums;
 using vet_clinic.Domain.Events;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace vet_clinic.Domain.Entities
 {
@@ -13,6 +14,7 @@ namespace vet_clinic.Domain.Entities
             Visits = new List<Visit>();
         }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public int Id { get; set; }
         public string PetName { get; set; }
         public int PetType { get; set; }

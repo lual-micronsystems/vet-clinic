@@ -86,7 +86,7 @@ namespace vet_clinic.Infrastructure.Persistence.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     PetName = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     PetType = table.Column<int>(type: "integer", nullable: false),
-                    Breed = table.Column<string>(type: "text", nullable: true),
+                    Breed = table.Column<string>(type: "character varying(200)", nullable: true),
                     BirthDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
