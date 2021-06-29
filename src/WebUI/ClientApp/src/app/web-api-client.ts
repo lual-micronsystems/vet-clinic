@@ -300,6 +300,8 @@ export class PetClient implements IPetClient {
 
 export interface IUserClient {
     getUsers(): Observable<UsersVm>;
+    searchUsersByFirstName(firstName: string | null | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfUserDto>;
+    searchUsersByLastName(lastName: string | null | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfUserDto>;
     createUser(command: CreateUserCommand): Observable<number>;
     deleteUser(userId: number): Observable<FileResponse>;
     updateUser(userId: number, command: UpdateUserCommand): Observable<FileResponse>;
@@ -364,6 +366,122 @@ export class UserClient implements IUserClient {
             }));
         }
         return _observableOf<UsersVm>(<any>null);
+    }
+
+    searchUsersByFirstName(firstName: string | null | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfUserDto> {
+        let url_ = this.baseUrl + "/api/User/SearchUsersByFirstName?";
+        if (firstName !== undefined && firstName !== null)
+            url_ += "FirstName=" + encodeURIComponent("" + firstName) + "&";
+        if (pageNumber === null)
+            throw new Error("The parameter 'pageNumber' cannot be null.");
+        else if (pageNumber !== undefined)
+            url_ += "PageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSearchUsersByFirstName(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearchUsersByFirstName(<any>response_);
+                } catch (e) {
+                    return <Observable<PaginatedListOfUserDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PaginatedListOfUserDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSearchUsersByFirstName(response: HttpResponseBase): Observable<PaginatedListOfUserDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PaginatedListOfUserDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PaginatedListOfUserDto>(<any>null);
+    }
+
+    searchUsersByLastName(lastName: string | null | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfUserDto> {
+        let url_ = this.baseUrl + "/api/User/SearchUsersByLastName?";
+        if (lastName !== undefined && lastName !== null)
+            url_ += "LastName=" + encodeURIComponent("" + lastName) + "&";
+        if (pageNumber === null)
+            throw new Error("The parameter 'pageNumber' cannot be null.");
+        else if (pageNumber !== undefined)
+            url_ += "PageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSearchUsersByLastName(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearchUsersByLastName(<any>response_);
+                } catch (e) {
+                    return <Observable<PaginatedListOfUserDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PaginatedListOfUserDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSearchUsersByLastName(response: HttpResponseBase): Observable<PaginatedListOfUserDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PaginatedListOfUserDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PaginatedListOfUserDto>(<any>null);
     }
 
     createUser(command: CreateUserCommand): Observable<number> {
@@ -524,6 +642,8 @@ export class UserClient implements IUserClient {
 export interface IVisitClient {
     getVisits(): Observable<VisitsVm>;
     getVisitsByPet(petId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfVisitDto>;
+    searchVisitsByType(visitType: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfVisitDto>;
+    searchVisitsByDateRange(startDate: Date | undefined, endDate: Date | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfVisitDto>;
     createVisit(command: CreateVisitCommand): Observable<number>;
     deleteVisit(visitId: number): Observable<FileResponse>;
     updateVisit(visitId: number, command: UpdateVisitCommand): Observable<FileResponse>;
@@ -629,6 +749,130 @@ export class VisitClient implements IVisitClient {
     }
 
     protected processGetVisitsByPet(response: HttpResponseBase): Observable<PaginatedListOfVisitDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PaginatedListOfVisitDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PaginatedListOfVisitDto>(<any>null);
+    }
+
+    searchVisitsByType(visitType: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfVisitDto> {
+        let url_ = this.baseUrl + "/api/Visit/SearchVisitsByType?";
+        if (visitType === null)
+            throw new Error("The parameter 'visitType' cannot be null.");
+        else if (visitType !== undefined)
+            url_ += "VisitType=" + encodeURIComponent("" + visitType) + "&";
+        if (pageNumber === null)
+            throw new Error("The parameter 'pageNumber' cannot be null.");
+        else if (pageNumber !== undefined)
+            url_ += "PageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSearchVisitsByType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearchVisitsByType(<any>response_);
+                } catch (e) {
+                    return <Observable<PaginatedListOfVisitDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PaginatedListOfVisitDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSearchVisitsByType(response: HttpResponseBase): Observable<PaginatedListOfVisitDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PaginatedListOfVisitDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PaginatedListOfVisitDto>(<any>null);
+    }
+
+    searchVisitsByDateRange(startDate: Date | undefined, endDate: Date | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfVisitDto> {
+        let url_ = this.baseUrl + "/api/Visit/SearchVisitsByDateRange?";
+        if (startDate === null)
+            throw new Error("The parameter 'startDate' cannot be null.");
+        else if (startDate !== undefined)
+            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toJSON() : "") + "&";
+        if (endDate === null)
+            throw new Error("The parameter 'endDate' cannot be null.");
+        else if (endDate !== undefined)
+            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&";
+        if (pageNumber === null)
+            throw new Error("The parameter 'pageNumber' cannot be null.");
+        else if (pageNumber !== undefined)
+            url_ += "PageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSearchVisitsByDateRange(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearchVisitsByDateRange(<any>response_);
+                } catch (e) {
+                    return <Observable<PaginatedListOfVisitDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PaginatedListOfVisitDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSearchVisitsByDateRange(response: HttpResponseBase): Observable<PaginatedListOfVisitDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1315,6 +1559,70 @@ export interface IPetDto2 {
     breed?: string | undefined;
     birthDate?: Date | undefined;
     userId?: number;
+}
+
+export class PaginatedListOfUserDto implements IPaginatedListOfUserDto {
+    items?: UserDto[] | undefined;
+    pageIndex?: number;
+    totalPages?: number;
+    totalCount?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
+
+    constructor(data?: IPaginatedListOfUserDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(UserDto.fromJS(item));
+            }
+            this.pageIndex = _data["pageIndex"];
+            this.totalPages = _data["totalPages"];
+            this.totalCount = _data["totalCount"];
+            this.hasPreviousPage = _data["hasPreviousPage"];
+            this.hasNextPage = _data["hasNextPage"];
+        }
+    }
+
+    static fromJS(data: any): PaginatedListOfUserDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PaginatedListOfUserDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["pageIndex"] = this.pageIndex;
+        data["totalPages"] = this.totalPages;
+        data["totalCount"] = this.totalCount;
+        data["hasPreviousPage"] = this.hasPreviousPage;
+        data["hasNextPage"] = this.hasNextPage;
+        return data; 
+    }
+}
+
+export interface IPaginatedListOfUserDto {
+    items?: UserDto[] | undefined;
+    pageIndex?: number;
+    totalPages?: number;
+    totalCount?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
 }
 
 export class CreateUserCommand implements ICreateUserCommand {

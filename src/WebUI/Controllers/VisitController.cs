@@ -1,8 +1,9 @@
 using vet_clinic.Application.Common.Models;
+using vet_clinic.Application.Visits.Queries.GetVisits;
+using vet_clinic.Application.Visits.Queries.SearchVisits;
 using vet_clinic.Application.Visits.Commands.CreateVisit;
 using vet_clinic.Application.Visits.Commands.DeleteVisit;
 using vet_clinic.Application.Visits.Commands.UpdateVisit;
-using vet_clinic.Application.Visits.Queries.GetVisits;
 using vet_clinic.Application.Pets.Queries.GetPets;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -22,6 +23,20 @@ namespace vet_clinic.WebUI.Controllers
         [HttpGet]
         [Route("GetVisitsByPet")]
         public async Task<ActionResult<PaginatedList<VisitDto>>> GetVisitsByPet([FromQuery] GetVisitsWithPaginationQuery query)
+        {
+            return Ok(await Mediator.Send(query));
+        }
+
+        [HttpGet]
+        [Route("SearchVisitsByType")]
+        public async Task<ActionResult<PaginatedList<VisitDto>>> SearchVisitsByType([FromQuery] SearchVisitsByTypeWithPaginationQuery query)
+        {
+            return Ok(await Mediator.Send(query));
+        }
+
+        [HttpGet]
+        [Route("SearchVisitsByDateRange")]
+        public async Task<ActionResult<PaginatedList<VisitDto>>> SearchVisitsByDateRange([FromQuery] SearchVisitsByDateRangeWithPaginationQuery query)
         {
             return Ok(await Mediator.Send(query));
         }

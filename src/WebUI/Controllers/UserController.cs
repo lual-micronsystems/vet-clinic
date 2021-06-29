@@ -1,9 +1,11 @@
 using vet_clinic.Application.Users.Queries.GetUsers;
+using vet_clinic.Application.Users.Queries.SearchUsers;
 using vet_clinic.Application.Users.Commands.CreateUser;
 using vet_clinic.Application.Users.Commands.DeleteUser;
 using vet_clinic.Application.Users.Commands.UpdateUser;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using vet_clinic.Application.Common.Models;
 
 namespace vet_clinic.WebUI.Controllers
 {
@@ -15,6 +17,20 @@ namespace vet_clinic.WebUI.Controllers
         public async Task<ActionResult<UsersVm>> GetUsers()
         {
             return Ok(await Mediator.Send(new GetUsersQuery()));
+        }
+
+        [HttpGet]
+        [Route("SearchUsersByFirstName")]
+        public async Task<ActionResult<PaginatedList<UserDto>>> SearchUsersByFirstName([FromQuery] SearchUsersByFirstNameWithPaginationQuery query)
+        {
+            return Ok(await Mediator.Send(query));
+        }
+
+        [HttpGet]
+        [Route("SearchUsersByLastName")]
+        public async Task<ActionResult<PaginatedList<UserDto>>> SearchUsersByLastName([FromQuery] SearchUsersByLastNameWithPaginationQuery query)
+        {
+            return Ok(await Mediator.Send(query));
         }
 
         [HttpPost]
