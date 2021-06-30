@@ -587,6 +587,202 @@
         }
       }
     },
+    "/api/Visit/SearchVisitsByPetName": {
+      "get": {
+        "tags": [
+          "Visit"
+        ],
+        "operationId": "Visit_SearchVisitsByPetName",
+        "parameters": [
+          {
+            "name": "PetName",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfVisitDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Visit/SearchVisitsByPetType": {
+      "get": {
+        "tags": [
+          "Visit"
+        ],
+        "operationId": "Visit_SearchVisitsByPetType",
+        "parameters": [
+          {
+            "name": "PetType",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfVisitDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Visit/SearchVisitsByUserFirstName": {
+      "get": {
+        "tags": [
+          "Visit"
+        ],
+        "operationId": "Visit_SearchVisitsByUserFirstName",
+        "parameters": [
+          {
+            "name": "FirstName",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfVisitDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Visit/SearchVisitsByUserLastName": {
+      "get": {
+        "tags": [
+          "Visit"
+        ],
+        "operationId": "Visit_SearchVisitsByUserLastName",
+        "parameters": [
+          {
+            "name": "LastName",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfVisitDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Visit/CreateVisit": {
       "post": {
         "tags": [

@@ -41,6 +41,34 @@ namespace vet_clinic.WebUI.Controllers
             return Ok(await Mediator.Send(query));
         }
 
+        [HttpGet]
+        [Route("SearchVisitsByPetName")]
+        public async Task<ActionResult<PaginatedList<VisitDto>>> SearchVisitsByPetName([FromQuery] SearchVisitsByPetNameWithPaginationQuery query)
+        {
+            return Ok(await Mediator.Send(query));
+        }
+
+        [HttpGet]
+        [Route("SearchVisitsByPetType")]
+        public async Task<ActionResult<PaginatedList<VisitDto>>> SearchVisitsByPetType([FromQuery] SearchVisitsByPetTypeWithPaginationQuery query)
+        {
+            return Ok(await Mediator.Send(query));
+        }
+
+        [HttpGet]
+        [Route("SearchVisitsByUserFirstName")]
+        public async Task<ActionResult<PaginatedList<VisitDto>>> SearchVisitsByUserFirstName([FromQuery] SearchVisitsByUserFirstNameWithPaginationQuery query)
+        {
+            return Ok(await Mediator.Send(query));
+        }
+
+        [HttpGet]
+        [Route("SearchVisitsByUserLastName")]
+        public async Task<ActionResult<PaginatedList<VisitDto>>> SearchVisitsByUserLastName([FromQuery] SearchVisitsByUserLastNameWithPaginationQuery query)
+        {
+            return Ok(await Mediator.Send(query));
+        }
+
         [HttpPost]
         [Route("CreateVisit")]
         public async Task<ActionResult<int>> CreateVisit(CreateVisitCommand command)
